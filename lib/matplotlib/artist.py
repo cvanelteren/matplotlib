@@ -990,7 +990,12 @@ class Artist:
                     if not callable(func):
                         raise AttributeError(f"{type(self).__name__!r} object "
                                              f"has no property {k!r}")
-                    ret.append(func(v))
+                    # dealing when possible
+                    try:
+                        ret.append(func(**v))
+                    # default behavior
+                    except:
+                        ret.append(func(v))
         if ret:
             self.pchanged()
             self.stale = True
